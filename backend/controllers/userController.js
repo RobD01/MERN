@@ -18,7 +18,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const userExists = await User.findOne({ email });
   if (userExists) {
     res.status(400);
-    throw new Error("user already exists");
+    throw new Error("User already exists");
   }
 
   // Hash password
@@ -90,4 +90,18 @@ const GetMe = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = { registerUser, loginUser, GetMe };
+// @desc Get all user data
+// @route GET /api/users
+// @access private
+
+const GetAll = asyncHandler(async (req, res) => {
+  const { _id, name, email } = await User;
+
+  res.status(200).json({
+    id: _id,
+    name,
+    email,
+  });
+});
+
+module.exports = { registerUser, loginUser, GetMe, GetAll };
